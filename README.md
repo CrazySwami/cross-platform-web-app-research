@@ -177,6 +177,8 @@ tauri-tiptap-editor/
 
 ## How to Build
 
+> **💻 Windows Users:** See [WINDOWS_SETUP.md](WINDOWS_SETUP.md) for complete Windows setup guide (Tauri Desktop + Android)
+
 ### Web Version
 ```bash
 pnpm install
