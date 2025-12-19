@@ -2,6 +2,8 @@
 
 A comprehensive exploration of building cross-platform applications using modern web technologies, comparing different approaches for desktop and mobile deployment.
 
+**📊 See the full comparison:** [STACK_COMPARISON.md](STACK_COMPARISON.md) - Detailed analysis of Tauri vs Electron (both with Capacitor mobile)
+
 ## Overview
 
 This repository documents research and experimentation with multiple tech stacks for building a cross-platform rich text editor (TipTap) application that can run on:
