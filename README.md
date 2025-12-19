@@ -157,15 +157,20 @@ This repository includes several helper scripts and guides:
 ```
 tauri-tiptap-editor/
 ├── src/                      # React frontend source
-├── dist/                     # Built frontend assets
-├── src-tauri/               # Tauri Rust backend
+├── dist/                     # Built frontend assets (shared)
+├── src-tauri/               # Tauri Rust backend (Desktop)
 │   ├── src/                 # Rust source code
 │   ├── Cargo.toml           # Rust dependencies
 │   ├── tauri.conf.json      # Tauri configuration
-│   └── gen/apple/           # Generated Xcode project
-├── build-ios-release.sh     # iOS build automation
+│   └── gen/apple/           # Generated Xcode project (Tauri iOS)
+├── ios/                     # Capacitor iOS project (Mobile)
+│   └── App/                 # Xcode workspace
+├── android/                 # Capacitor Android project (Mobile)
+│   └── app/                 # Android Studio project
+├── capacitor.config.json    # Capacitor configuration
+├── build-ios-release.sh     # Tauri iOS build automation
 ├── verify-ios-config.sh     # Configuration checker
-└── iOS-BUILD-GUIDE.md       # iOS troubleshooting guide
+└── iOS-BUILD-GUIDE.md       # Tauri iOS troubleshooting guide
 ```
 
 ## How to Build
@@ -207,6 +212,57 @@ open src-tauri/gen/apple/tauri-tiptap-editor.xcodeproj
 ```
 
 See [iOS-BUILD-GUIDE.md](iOS-BUILD-GUIDE.md) for detailed troubleshooting.
+
+### Mobile Version (Capacitor) - ✅ Recommended
+
+**This is the recommended approach for mobile deployment** as it's production-ready and works reliably on both iOS and Android.
+
+#### Setup (Already Done)
+Capacitor has been integrated into this repository. The setup includes:
+- iOS and Android platforms configured
+- Build scripts added to package.json
+- Shared `dist/` folder for web assets
+
+#### Build and Run
+
+**iOS:**
+```bash
+# Build frontend and open in Xcode
+pnpm run cap:build:ios
+
+# Or manually:
+pnpm build              # Build frontend
+npx cap sync ios        # Sync assets to iOS project
+npx cap open ios        # Open in Xcode
+```
+
+Then in Xcode:
+1. Select your device or simulator
+2. Press Cmd+R to build and run
+
+**Android:**
+```bash
+# Build frontend and open in Android Studio
+pnpm run cap:build:android
+
+# Or manually:
+pnpm build              # Build frontend
+npx cap sync android    # Sync assets to Android project
+npx cap open android    # Open in Android Studio
+```
+
+Then in Android Studio:
+1. Select your device or emulator
+2. Click Run
+
+#### Why Capacitor Works Better Than Tauri iOS
+
+- ✅ **Stable and production-ready** - Used by thousands of apps in production
+- ✅ **Consistent behavior** - Works same on simulator and physical devices
+- ✅ **Mature plugin ecosystem** - Native features available as plugins
+- ✅ **Better documentation** - Extensive guides and community support
+- ✅ **No build script issues** - Standard iOS/Android build tools
+- ✅ **Active development** - Regular updates and bug fixes
 
 ## Key Takeaways
 

@@ -61,3 +61,12 @@ Cargo.lock
 
 # Testing
 coverage/
+
+# Capacitor
+ios/App/Pods/
+ios/App/Podfile.lock
+ios/App/App/public/
+android/.gradle/
+android/app/build/
+android/app/src/main/assets/public/
+.capacitor/
