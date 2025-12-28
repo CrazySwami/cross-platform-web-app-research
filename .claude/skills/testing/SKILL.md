@@ -40,16 +40,32 @@ By testing the browser engines, we test all platforms without needing actual dev
 
 | Hook | When | What Runs |
 |------|------|-----------|
-| **Pre-commit** | Before git commit | TypeScript + E2E smoke test |
-| **Stop (TDD)** | After Claude responds | Full E2E suite (chromium) |
-| **On demand** | `/test-all` skill | E2E + Visual + Builds + Review |
+| **Pre-commit** | Before git commit | TypeScript + E2E smoke test (chromium) |
+| **Stop (TDD)** | After Claude responds | Full E2E suite (chromium + webkit) |
+| **On demand** | `pnpm test:all` | TypeScript + E2E + TypeDoc generation |
+
+### Complete Test Commands
+
+```bash
+# Individual test suites
+pnpm typecheck        # TypeScript strict mode
+pnpm test:e2e         # Playwright (Chromium + WebKit = 6 platforms)
+pnpm test:unit        # Vitest unit tests
+pnpm storybook:test   # Storybook interaction tests (requires Storybook running)
+pnpm docs:api         # TypeDoc API generation
+
+# Combined
+pnpm test:all         # TypeScript + E2E + TypeDoc
+pnpm check            # TypeScript + E2E chromium (fast)
+pnpm check:full       # TypeScript + E2E all browsers
+```
 
 ### No External CI Needed
 
 - No GitHub Actions
 - No device farms
 - No cloud testing services
-- Everything runs locally via Playwright
+- Everything runs locally
 
 **Web-based alternatives preferred:** If a feature needs native functionality,
 we look for web-based solutions first (e.g., Web Audio API instead of native audio).
