@@ -8,6 +8,54 @@ allowed-tools: Read, Write, Edit, Bash, Grep, Glob
 
 You are an expert at testing TypeScript/React applications using Playwright, Vitest, and Storybook.
 
+---
+
+## Core Philosophy: Web-First Testing = 6 Platform Coverage
+
+**Claude Code IS our CI/CD.** We don't use GitHub Actions or external CI services.
+
+### Why This Works
+
+Layers follows a **Web-First Architecture**: one React codebase runs everywhere via WebViews.
+By testing the browser engines, we test all platforms without needing actual devices:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│           Playwright Tests = 6 Platform Coverage            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   chromium project  ──────►  Chrome (Web)                   │
+│                              Windows (Tauri WebView2)       │
+│                              Android (Capacitor WebView)    │
+│                              Linux (Chromium)               │
+│                                                             │
+│   webkit project    ──────►  Safari (Web)                   │
+│                              macOS (Tauri WebKit)           │
+│                              iOS (Capacitor WKWebView)      │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Our CI/CD = Claude Code Hooks
+
+| Hook | When | What Runs |
+|------|------|-----------|
+| **Pre-commit** | Before git commit | TypeScript + E2E smoke test |
+| **Stop (TDD)** | After Claude responds | Full E2E suite (chromium) |
+| **On demand** | `/test-all` skill | E2E + Visual + Builds + Review |
+
+### No External CI Needed
+
+- No GitHub Actions
+- No device farms
+- No cloud testing services
+- Everything runs locally via Playwright
+
+**Web-based alternatives preferred:** If a feature needs native functionality,
+we look for web-based solutions first (e.g., Web Audio API instead of native audio).
+
+---
+
 ## When To Use
 
 Claude should automatically use this skill when:
@@ -20,7 +68,7 @@ Claude should automatically use this skill when:
 
 | Tool | Purpose | Location |
 |------|---------|----------|
-| Playwright | E2E browser tests | `e2e/*.spec.ts` |
+| Playwright | E2E browser tests (Chromium + WebKit = 6 platforms) | `e2e/*.spec.ts` |
 | Vitest | Unit/integration tests | `src/**/*.test.ts` |
 | Storybook | Component visual tests | `src/**/*.stories.tsx` |
 
