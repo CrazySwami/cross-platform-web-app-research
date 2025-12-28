@@ -1,5 +1,17 @@
 {
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR/.claude/hooks/pre-bash-safety.sh\"",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit",
@@ -43,6 +55,17 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR/.claude/hooks/stop-tdd.sh\"",
+            "timeout": 180000
+          }
+        ]
+      }
     ]
   },
   "permissions": {
@@ -63,6 +86,16 @@
       "Read(*)",
       "Glob(*)",
       "Grep(*)"
+    ],
+    "deny": [
+      "Read(./.env*)",
+      "Read(~/.ssh/*)",
+      "Read(~/.aws/*)",
+      "Read(~/.gnupg/*)",
+      "Read(~/.config/gh/*)",
+      "Bash(rm -rf:*)",
+      "Bash(sudo:*)",
+      "Bash(dd if=:*)"
     ]
   }
 }
