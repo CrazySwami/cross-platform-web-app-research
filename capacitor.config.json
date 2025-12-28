@@ -1,6 +1,6 @@
 {
-  "appId": "com.research.tiptap",
-  "appName": "TipTap Editor",
+  "appId": "com.layers.app",
+  "appName": "Layers",
   "webDir": "dist",
   "server": {
     "androidScheme": "https"

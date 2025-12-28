@@ -16,6 +16,20 @@
     "store:default",
     "store:allow-get",
     "store:allow-set",
-    "store:allow-save"
+    "store:allow-save",
+    "sql:default",
+    "sql:allow-execute",
+    "sql:allow-select",
+    "sql:allow-close",
+    "notification:default",
+    "notification:allow-is-permission-granted",
+    "notification:allow-request-permission",
+    "notification:allow-notify",
+    "deep-link:default",
+    "http:default",
+    "http:allow-fetch",
+    "http:allow-fetch-cancel",
+    "http:allow-fetch-read-body",
+    "http:allow-fetch-send"
   ]
 }

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "🔍 Running pre-commit checks..."
+
+# TypeScript check
+echo "📝 TypeScript..."
+pnpm tsc --noEmit || exit 1
+
+# Fast E2E smoke test (chromium only)
+echo "🧪 E2E smoke test (chromium)..."
+pnpm test:e2e --project=chromium --max-failures=3 || exit 1
+
+echo "✅ Pre-commit checks passed!"

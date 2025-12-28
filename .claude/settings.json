@@ -1,0 +1,68 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "file_path=$(cat - | jq -r '.tool_input.file_path // empty'); if [ -n \"$file_path\" ] && echo \"$file_path\" | grep -qE '\\.(ts|tsx)$'; then echo \"TypeScript file modified: $file_path\"; fi",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR/.claude/hooks/post-test.sh\"",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__linear__update_issue|mcp__linear__create_comment",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR/.claude/hooks/post-linear.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat -); title=$(echo \"$input\" | jq -r '.title // \"Claude Code\"'); message=$(echo \"$input\" | jq -r '.message // empty'); if [ -n \"$message\" ]; then \"$CLAUDE_PROJECT_DIR/.claude/hooks/notify.sh\" \"$title\" \"$message\"; fi",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(pnpm test:*)",
+      "Bash(pnpm docs:*)",
+      "Bash(pnpm storybook*)",
+      "Bash(pnpm build*)",
+      "Bash(pnpm typecheck*)",
+      "Bash(git status)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git branch*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(npx playwright*)",
+      "Bash(npx vitest*)",
+      "Read(*)",
+      "Glob(*)",
+      "Grep(*)"
+    ]
+  }
+}

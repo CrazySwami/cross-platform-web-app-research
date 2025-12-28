@@ -1,0 +1,23 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "src/lib/platform/index.ts",
+    "src/lib/supabase/index.ts",
+    "src/lib/sync/index.ts",
+    "src/lib/database/index.ts",
+    "src/hooks/index.ts"
+  ],
+  "out": "docs/api/generated",
+  "plugin": ["typedoc-plugin-markdown"],
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeInternal": true,
+  "includeVersion": true,
+  "categorizeByGroup": true,
+  "readme": "none",
+  "name": "Layers API",
+  "navigationLinks": {
+    "Documentation": "/",
+    "GitHub": "https://github.com/your-org/layers"
+  }
+}

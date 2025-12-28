@@ -4,6 +4,7 @@ import Underline from "@tiptap/extension-underline";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import Placeholder from "@tiptap/extension-placeholder";
+import CharacterCount from "@tiptap/extension-character-count";
 import { useCallback, useState, useEffect } from "react";
 import { save, open } from "@tauri-apps/plugin-dialog";
 import { readTextFile, writeTextFile } from "@tauri-apps/plugin-fs";
@@ -32,6 +33,7 @@ export function TipTapEditor() {
         nested: true,
       }),
       PlaceholderExtension,
+      CharacterCount,
     ],
     content: `
       <h1>Welcome to TipTap Editor</h1>

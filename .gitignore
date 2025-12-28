@@ -61,6 +61,8 @@ Cargo.lock
 
 # Testing
 coverage/
+playwright-report/
+test-results/
 
 # Capacitor
 ios/App/Pods/
@@ -70,3 +72,13 @@ android/.gradle/
 android/app/build/
 android/app/src/main/assets/public/
 .capacitor/
+
+# Documentation cache
+docs/.vitepress/cache/
+
+# Supabase temp files
+supabase/.temp/
+supabase/migrations/supabase/
+
+# Duplicate tauri directory (if created accidentally)
+src-tauri/src-tauri/
