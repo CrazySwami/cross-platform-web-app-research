@@ -184,6 +184,11 @@ layers/
 /plan           # Create implementation plan
 ```
 
+### Code Review
+```
+/review         # Multi-pass review (5 agents + validator)
+```
+
 ## Platform-Specific Code
 
 When you need platform-specific behavior:
@@ -242,6 +247,69 @@ await editor.clickToolbarButton('Code Block');
 | `vite.config.ts` | Vite bundler config |
 | `.storybook/main.ts` | Storybook config |
 | `typedoc.json` | API documentation config |
+
+## Claude Code Automation
+
+**Claude Code IS our CI/CD.** No GitHub Actions, no external services. Everything runs locally via hooks.
+
+### Hooks (Always-On)
+
+| Hook | Trigger | What It Does |
+|------|---------|--------------|
+| **TDD Stop** | After every Claude response | Runs `pnpm test:e2e --project=chromium` |
+| **Safety** | Before any Bash command | Blocks `rm -rf`, `sudo`, destructive commands |
+| **Notifications** | After tests/Linear ops | Push via ntfy.sh |
+
+### TDD Loop with Circuit Breaker
+
+```
+Claude responds → Stop hook runs tests
+                        ↓
+              ┌─── Tests pass? ───┐
+              │                   │
+             Yes                  No
+              │                   │
+              ▼                   ▼
+           Done            Feed error to Claude
+                                  │
+                                  ▼
+                          Claude fixes code
+                                  │
+                                  ▼
+                           Loop (max 3 failures)
+                                  │
+                                  ▼
+                     Circuit breaker → ntfy.sh notification
+```
+
+### Bypass TDD (for quick questions)
+
+```bash
+claude --no-hooks      # Start without hooks
+SKIP_TDD=1 claude      # Environment variable
+```
+
+### Multi-Pass Code Review
+
+Run `/review` for Boris Cherny-style multi-pass reviews:
+
+**Pass 1 (parallel):** 5 specialized agents
+- `security-reviewer` - OWASP, injection, auth
+- `performance-reviewer` - N+1, memory, bottlenecks
+- `style-reviewer` - TypeScript, TSDoc, naming
+- `test-reviewer` - Coverage, assertions
+- `patterns-reviewer` - Architecture, accessibility
+
+**Pass 2:** `review-validator` (Opus) eliminates false positives
+
+### Notifications (ntfy.sh)
+
+Push notifications for:
+- Circuit breaker triggered (3 consecutive test failures)
+- Test suite completion
+- Linear issue updates
+
+Topic: `layers-mf-08ebf1d1`
 
 ## Quality Gates
 
